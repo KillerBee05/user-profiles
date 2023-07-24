@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'Bullina';
+  src: url('../../fonts/Bullina.otf') format('truetype');
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0;
+  }
+}
+
+.arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+
+.color-selector-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-info {
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Bullina', sans-serif;
+}

@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Bullina';
+    src: url('../../fonts/Bullina.otf') format('truetype');
+  }
+  
+  label {
+    font-family: 'Bullina', sans-serif;
+    font-size: 25px;
+  }
+  
+  input {
+    width: 100px;
+  }
+
+  @media (max-width: 600px) {
+    label {
+      font-size: 20px;
+    }
+    input {
+      width: 50px;
+    }
+  }
+  
