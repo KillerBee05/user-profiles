@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Profile } from '../../types';
+import { Profile, User } from '../../types';
 import { getPerPage } from './helpers';
 import View from './view';
 
@@ -71,35 +71,36 @@ export default function Controller() {
     fetchUsers();
   }, [perPage]);
 
-  const fetchUsers = () => {
-    const resultsToFetch = perPage;
-    fetch(`https://randomuser.me/api/?results=${resultsToFetch}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const users = data.results;
-        const profileData: Profile[] = users.map((user: any) => ({
-          name: `${user.name.first} ${user.name.last}`,
-          email: user.email,
-          phone: user.phone,
-          picture: user.picture.large,
-          location: `${user.location.city}, ${user.location.country}`,
-        }));
-        setState((prevState) => ({
-          ...prevState,
-          allProfiles: [...prevState.allProfiles, ...profileData],
-          isLoading: false,
-          totalPages: Math.ceil((prevState.allProfiles.length + profileData.length) / perPage),
-        }));
-      })
-      .catch((error) => {
-        alert('Something went wrong with the request. Try reloading.');
-        console.log('Error fetching profiles:', error);
-        setState((prevState) => ({
-          ...prevState,
-          isLoading: false,
-        }));
-      });
+  const fetchUsers = async () => {
+    try {
+      const resultsToFetch = perPage;
+      const response = await fetch(`https://randomuser.me/api/?results=${resultsToFetch}`);
+      const data = await response.json();
+      const users = data.results;
+      const profileData = users.map((user: User) => ({
+        name: `${user.name.first} ${user.name.last}`,
+        email: user.email,
+        phone: user.phone,
+        picture: user.picture.large,
+        location: `${user.location.city}, ${user.location.country}`,
+      }));
+      
+      setState((prevState) => ({
+        ...prevState,
+        allProfiles: [...prevState.allProfiles, ...profileData],
+        isLoading: false,
+        totalPages: Math.ceil((prevState.allProfiles.length + profileData.length) / perPage),
+      }));
+    } catch (error) {
+      alert('Something went wrong with the request. Try reloading.');
+      console.log('Error fetching profiles:', error);
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+    }
   };
+  
 
   const handleArrowClick = (direction: 'previous' | 'next') => {
     setState((prevState) => {
